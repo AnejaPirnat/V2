@@ -7,6 +7,5 @@
             <input type="text" class="form-control" id="text" name="text" value="<?php echo isset($_POST["text"]) ? $_POST["text"]: ""; ?>">
         </div>
         <button type="submit" class="btn btn-primary" name="post">Objavi</button>
-        <label class="text-danger"><?php echo $error; ?></label>
     </form>
 </div>

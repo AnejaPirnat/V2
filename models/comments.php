@@ -48,13 +48,27 @@ public static function create($text, $userId, $articleId){
         }
     }
 
+public static function findByArticle($article_id)
+    {
+        $db = Db::getInstance();
+        $article_id = intval($article_id);
+        $query = "SELECT * FROM comments WHERE article_id = '$article_id';";
+        $res = $db->query($query);
+
+        $comments = [];
+        while ($comment = $res->fetch_object()) {
+            $comments[] = new Comment($comment->id, $comment->text, $comment->date, $comment->user_id, $comment->article_id);
+        }
+        return $comments;
+    }
+
 /*public static function delete($id, $userId, $articleId){
         $db = Db::getInstance();
         $id = intval($id);
         $userId = intval($userId);
         $articleId = intval($articleId);
 
-        $query = "DELETE FROM comments WHERE id='$id' AND user_id='$userId' AND article_id='$articleId'";
+        $query = "DELETE FROM comments WHERE id='$id' AND user_id=$userId AND article_id=$articleId";
         if ($db->query($query)) {
             return true;
         } else {

@@ -15,7 +15,7 @@
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Ponovi geslo</label>
-            <input type="password" class="form-control" id="password" name="password" value="">
+            <input type="password" class="form-control" id="repeat_password" name="repeat_password" value="">
         </div>
         <button type="submit" class="btn btn-primary" name="register">Shrani</button>
         <label class="text-danger"><?php echo $error; ?></label>

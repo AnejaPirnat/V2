@@ -8,5 +8,9 @@
         <a href="/V2/"><button>Nazaj</button></a>
     </div>
 </div>
-<?php include 'views/comments/create.php'; ?>
- <?php include 'views/comments/show.php'; ?>
+<?php
+  if (isset($_SESSION['USER_ID'])) {
+      include 'views/comments/create.php';
+  }
+include 'views/comments/show.php';
+?>

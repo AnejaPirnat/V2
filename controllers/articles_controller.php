@@ -13,6 +13,8 @@
         delete: izbriše novico iz baze
 */
 
+require_once('models/comments.php');
+
 class articles_controller
 {
     public function index()
@@ -87,7 +89,9 @@ public function delete(){
             //retun smo nastavil za to, da se izvajanje kode v tej akciji ne nadaljuje
         }
         //drugače najdemo oglas in ga prikažemo
-        $article = Article::find($_GET['id']);
+        $id = intval($_GET['id']);
+        $article = Article::find($id);
+        $comments = Comment::findByArticle($id);
         require_once('views/articles/show.php');
     }
 

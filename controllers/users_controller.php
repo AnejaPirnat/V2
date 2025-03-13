@@ -57,6 +57,7 @@ class users_controller
             switch($_GET["error"]){
                 case 1: $error = "Izpolnite vse podatke"; break;
                 case 2: $error = "Uporabniško ime je že zasedeno."; break;
+                case 3: $error = "Gesli se ne ujemata."; break;
                 default: $error = "Prišlo je do napake med urejanjem uporabnika.";
             }
         }
@@ -77,13 +78,20 @@ class users_controller
         else if($user->username != $_POST["username"] && User::is_available($_POST["username"])){
             header("Location: /V2/users/edit?error=2");
         }
-        //Podatki so pravilno izpolnjeni, registriraj uporabnika
-        else if($user->update($_POST["username"], $_POST["email"])){
-            header("Location: /V2/");
+
+        $password = null;
+        if (!empty($_POST["password"]) || !empty($_POST["repeat_password"])) {
+            if ($_POST["password"] !== $_POST["repeat_password"]) {
+                header("Location: /V2/users/edit?error=3");
+                die();
+            }
+            $password = $_POST["password"];
         }
-        //Prišlo je do napake pri registraciji
-        else{
-            header("Location: /V2/users/edit?error=3");
+
+        if($user->update($_POST["username"], $_POST["email"], $password)){
+        header("Location: /V2/");
+        } else {
+            header("Location: /V2/users/edit?error=4");
         }
         die();
     }

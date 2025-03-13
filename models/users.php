@@ -73,12 +73,20 @@ class User
     }
 
     // Metoda, ki posodobi uporabniko ime in e-mail od trenutnega uporabnika v bazi
-    public function update($username, $email){
+    public function update($username, $email, $password = null){
         $db = Db::getInstance();
         $username = mysqli_real_escape_string($db, $username);
         $email = mysqli_real_escape_string($db, $email);
         $id = $this->id;
-        $query = "UPDATE users SET username='$username', email='$email' WHERE id=$id LIMIT 1;";
+        $query = "UPDATE users SET username='$username', email='$email'";
+
+        if (!empty($password)) {
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $query .= ", password='$hashedPassword'";
+        }
+
+        $query .= " WHERE id=$id LIMIT 1;";
+
         if($db->query($query)){
             return true;
         }
