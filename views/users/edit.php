@@ -9,8 +9,12 @@
             <label for="email" class="form-label">E-pošta</label>
             <input type="email" class="form-control" id="email" name="email" value="<?php echo $user->email; ?>">
         </div>
+           <div class="mb-3">
+            <label for="password" class="form-label">Staro geslo</label>
+            <input type="password" class="form-control" id="old_password" name="old_password" value="">
+        </div>
         <div class="mb-3">
-            <label for="password" class="form-label">Zamenjaj geslo</label>
+            <label for="password" class="form-label">Novo geslo</label>
             <input type="password" class="form-control" id="password" name="password" value="">
         </div>
         <div class="mb-3">

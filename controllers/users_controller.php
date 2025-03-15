@@ -58,6 +58,7 @@ class users_controller
                 case 1: $error = "Izpolnite vse podatke"; break;
                 case 2: $error = "Uporabniško ime je že zasedeno."; break;
                 case 3: $error = "Gesli se ne ujemata."; break;
+                case 4: $error = "Staro geslo ni pravilno."; break;
                 default: $error = "Prišlo je do napake med urejanjem uporabnika.";
             }
         }
@@ -79,19 +80,28 @@ class users_controller
             header("Location: /V2/users/edit?error=2");
         }
 
+        $oldPasswordRight= password_verify($_POST["old_password"], $user->password);
+        if (!$oldPasswordRight) {
+            header("Location: /V2/users/edit?error=4");
+            die();
+        }
+
         $password = null;
-        if (!empty($_POST["password"]) || !empty($_POST["repeat_password"])) {
+        if (!empty($_POST["password"]) && !empty($_POST["repeat_password"])) {
             if ($_POST["password"] !== $_POST["repeat_password"]) {
                 header("Location: /V2/users/edit?error=3");
                 die();
             }
             $password = $_POST["password"];
+        }else{
+            header("Location: /V2/users/edit?error=1");
+            die();
         }
 
         if($user->update($_POST["username"], $_POST["email"], $password)){
         header("Location: /V2/");
         } else {
-            header("Location: /V2/users/edit?error=4");
+            header("Location: /V2/users/edit?error=5");
         }
         die();
     }
